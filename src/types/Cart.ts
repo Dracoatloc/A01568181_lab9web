@@ -6,14 +6,26 @@ class Cart {
     lineItems: [LineItem] = [] as any;
 
     addItem(product: Product, sku: Sku, quantity: number, price: number) : void {
-        const lineItem = {} as LineItem;
-        lineItem.product = product;
-        lineItem.sku = sku;
-        lineItem.quantity = quantity;
-        lineItem.unitPrice = price;
-        lineItem.totalPrice = quantity * price;
+        var existingSku = false;
+        this.lineItems.forEach((item) => {
+            if(item.sku.id === sku.id) {
+                item.quantity += quantity;
+                item.totalPrice = item.unitPrice * item.quantity;
+                existingSku = true;
+            }
+        }) 
 
-        this.lineItems.push(lineItem);
+        if(!existingSku) {
+            const lineItem = {} as LineItem;
+            lineItem.product = product;
+            lineItem.sku = sku;
+            lineItem.quantity = quantity;
+            lineItem.unitPrice = price;
+            lineItem.totalPrice = quantity * price;
+
+            this.lineItems.push(lineItem);
+        }
+        
     }
 
     getNumberOfItems() {
