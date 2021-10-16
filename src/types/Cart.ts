@@ -29,7 +29,6 @@ class Cart {
 
     removeItem(sku: Sku) : void {
         var newLineItems: [LineItem] = [] as any;
-       //this.lineItems = this.lineItems.filter(lineItem => lineItem.sku.id !== sku.id)
        
         this.lineItems.forEach((item) => {
             if(item.sku.id !== sku.id){
