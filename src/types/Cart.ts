@@ -3,29 +3,40 @@ import Product from "./Product";
 import Sku from "./Sku";
 
 class Cart {
-    lineItems: [LineItem] = [] as any;
+    lineItems: LineItem[] = [] as any;
 
     addItem(product: Product, sku: Sku, quantity: number, price: number) : void {
         var existingSku = false;
         this.lineItems.forEach((item) => {
-            if(item.sku.id === sku.id) {
+            if(item.sku.id === sku.id){
                 item.quantity += quantity;
                 item.totalPrice = item.unitPrice * item.quantity;
                 existingSku = true;
             }
-        }) 
+        });
 
-        if(!existingSku) {
+        if(!existingSku){
             const lineItem = {} as LineItem;
-            lineItem.product = product;
-            lineItem.sku = sku;
-            lineItem.quantity = quantity;
-            lineItem.unitPrice = price;
-            lineItem.totalPrice = quantity * price;
+        lineItem.product = product;
+        lineItem.sku = sku;
+        lineItem.quantity = quantity;
+        lineItem.unitPrice = price;
+        lineItem.totalPrice = quantity * price;
 
-            this.lineItems.push(lineItem);
+        this.lineItems.push(lineItem);
         }
-        
+    }
+
+    removeItem(sku: Sku) : void {
+        var newLineItems: [LineItem] = [] as any;
+       //this.lineItems = this.lineItems.filter(lineItem => lineItem.sku.id !== sku.id)
+       
+        this.lineItems.forEach((item) => {
+            if(item.sku.id !== sku.id){
+                newLineItems.push(item);
+            }
+        });
+        this.lineItems = newLineItems;
     }
 
     getNumberOfItems() {
